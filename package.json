@@ -1,0 +1,23 @@
+{
+  "name": "mark",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://meads2320@github.com/meads2320/exzeo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meads2320/exzeo/issues"
+  },
+  "homepage": "https://github.com/meads2320/exzeo#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
