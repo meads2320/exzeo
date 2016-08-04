@@ -5,6 +5,12 @@ var ObjectId = require('mongodb').ObjectID;
 
 var router = function(nav) {
 
+    bookRouter.use(function(req,res,next) {
+        if(!req.user){
+            res.redirect('/');
+        }
+        next();
+    });
 
     bookRouter.route('/:id')
 .get(function(req,res)  {
