@@ -1,47 +1,46 @@
 var express = require('express');
-
+var mongodb = require('mongodb').MongoClient;
 var bookRouter = express.Router();
+var ObjectId = require('mongodb').ObjectID;
 
 var router = function(nav) {
-    var books = [
-        {
-            title: 'War and Peace',
-            genre: 'Historical Fiction',
-            author: 'Lev Nikolayevich Tolstoy',
-            read : false
-        },
-        {
-            title: 'ABC',
-            genre: 'Fiction',
-            author: 'XYZ',
-            read : true
-        },
-        {
-            title: 'Test Book 3',
-            genre: 'Non-Fiction',
-            author: 'Third Book Author',
-            read : false
-        }
-    ];
+
 
     bookRouter.route('/:id')
-    .get(function(req,res)  {
-        var id = req.params.id;
-        res.render('book', { 
-            title: 'Single Book',
-            nav : nav,
-            book : books[id]
+.get(function(req,res)  {
+         var url = 'mongodb://localhost:27017/libraryApp';
+        mongodb.connect(url, function(err, db) {
+            var id = new ObjectId(req.params.id);
+            var collection = db.collection('books');
+            collection.findOne({ _id : id}, function(err, result) {
+                res.render('book', { 
+                    title: 'Single book',
+                    nav : nav,
+                    book : result
+                });
+                 db.close();
+            });    
         });
+
     });
 
 
     bookRouter.route('/')
     .get(function(req,res)  {
-        res.render('bookList', { 
-            title: 'All books',
-            nav : nav,
-            books : books
+         var url = 'mongodb://localhost:27017/libraryApp';
+        mongodb.connect(url, function(err, db) {
+            var collection = db.collection('books');
+            collection.find({}).toArray(function(err, results) {
+                res.render('bookList', { 
+                    title: 'All books',
+                    nav : nav,
+                    books : results
+                });
+                 db.close();
+            });    
         });
+
+      
     });
 
     return bookRouter;

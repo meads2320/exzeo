@@ -4,6 +4,8 @@ var app = express();
 
 var port = process.env.PORT || 1987;
 
+var bodyParser = require('body-parser');
+
 var nav = [
             { Link : '/Books', Text: 'Books'}, 
             { Link : '/Authors', Text: 'Authors'}
@@ -11,9 +13,14 @@ var nav = [
 
 var bookRouter = require('./source/routes/bookRoutes')(nav);
 var authorRouter = require('./source/routes/authorRoutes')(nav);
+var adminRouter = require('./source/routes/adminRoutes')(nav);
+var authRouter = require('./source/routes/authRoutes')(nav);
 
 //middleware
 app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+
 app.set('views', 'source/views');
 //app.set('view engine', 'jade');
 
@@ -25,6 +32,8 @@ app.set('view engine', 'ejs');
 
 app.use('/Books', bookRouter);
 app.use('/Authors', authorRouter);
+app.use('/Admin', adminRouter);
+
 
 app.get('/', function(req, res) { 
     res.render('main', { 
