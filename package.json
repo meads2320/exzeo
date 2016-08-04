@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/meads2320/exzeo#readme",
   "dependencies": {
+    "ejs": "^2.5.1",
     "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
     "jade": "^1.11.0"
   },
   "devDependencies": {
