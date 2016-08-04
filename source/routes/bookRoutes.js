@@ -3,51 +3,17 @@ var mongodb = require('mongodb').MongoClient;
 var bookRouter = express.Router();
 var ObjectId = require('mongodb').ObjectID;
 
+
 var router = function(nav) {
 
-    bookRouter.use(function(req,res,next) {
-        if(!req.user){
-            res.redirect('/');
-        }
-        next();
-    });
+var bookService = require('../services/goodReadsService')();
 
-    bookRouter.route('/:id')
-.get(function(req,res)  {
-         var url = 'mongodb://localhost:27017/libraryApp';
-        mongodb.connect(url, function(err, db) {
-            var id = new ObjectId(req.params.id);
-            var collection = db.collection('books');
-            collection.findOne({ _id : id}, function(err, result) {
-                res.render('book', { 
-                    title: 'Single book',
-                    nav : nav,
-                    book : result
-                });
-                 db.close();
-            });    
-        });
+var bookController = require('../controllers/bookController')(bookService, nav);
 
-    });
+    bookRouter.use(bookController.middleWare);
 
-
-    bookRouter.route('/')
-    .get(function(req,res)  {
-         var url = 'mongodb://localhost:27017/libraryApp';
-        mongodb.connect(url, function(err, db) {
-            var collection = db.collection('books');
-            collection.find({}).toArray(function(err, results) {
-                res.render('bookList', { 
-                    title: 'All books',
-                    nav : nav,
-                    books : results
-                });
-                 db.close();
-            });    
-        });
-
-      
-    });
+    bookRouter.route('/:id').get(bookController.getById);
+    bookRouter.route('/').get(bookController.getIndex);
 
     return bookRouter;
 };

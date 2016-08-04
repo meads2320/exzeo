@@ -6,17 +6,20 @@ var books = [ {
             title:'War and Peace', 
             genre:'Historical Fiction', 
             author:'Lev Nikolayevich Tolstoy', 
-            read:false
+            read:false, 
+            bookId : 656
         },  {
             title:'ABC', 
             genre:'Fiction', 
             author:'XYZ', 
-            read:true
+            read:true,
+            bookId : 657
         },  {
             title:'Test Book 3', 
             genre:'Non-Fiction', 
             author:'Third Book Author', 
-            read:false
+            read:false,
+            bookId : 658
         }
     ]; 
 
