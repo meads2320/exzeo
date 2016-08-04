@@ -4,6 +4,13 @@ var app = express();
 
 var port = process.env.PORT || 1987;
 
+var nav = [
+            { Link : '/Books', Text: 'Books'}, 
+            { Link : '/Authors', Text: 'Authors'}
+          ];
+
+var bookRouter = require('./source/routes/bookRoutes')(nav);
+var authorRouter = require('./source/routes/authorRoutes')(nav);
 
 //middleware
 app.use(express.static('public'));
@@ -16,17 +23,17 @@ app.set('views', 'source/views');
 //app.set('view engine', '.hbs');
 app.set('view engine', 'ejs');
 
+app.use('/Books', bookRouter);
+app.use('/Authors', authorRouter);
+
 app.get('/', function(req, res) { 
     res.render('main', { 
-        title: "Hello from EJS",
-        list : ['1','2','3' ,'4']
+        title: 'Hello from EJS',
+        nav : nav
     });
-});
-
-app.get('/books', function(req, res) { 
-    res.send('hello books');
 });
 
 app.listen(1987, function(err)  {
     console.log('running server on port: ' + port);
 });
+
